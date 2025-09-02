@@ -78,6 +78,10 @@ except (FileNotFoundError, json.JSONDecodeError, KeyError, ValueError):
 	print("Error: Invalid or missing theta_history.json")
 	exit(1)
 
+if not (theta0_list and theta1_list and loss_history):
+    print("Error: theta_history.json contains empty lists.")
+    exit(1)
+
 if not (len(theta0_list) == len(theta1_list) == len(loss_history)):
 	print("Error: theta history arrays have inconsistent lengths.")
 	exit(1)
@@ -113,9 +117,6 @@ ax_data.set_title("Linear Regression Evolution")
 ax_data.legend()
 
 loss_line, = ax_loss.plot(loss_history, color="green", label="Loss")
-if not loss_history:
-	print("Error: Empty loss history.")
-	exit(1)
 loss_point, = ax_loss.plot(0, loss_history[0], 'ro')
 ax_loss.set_xlabel("Iteration")
 ax_loss.set_ylabel("Mean Squared Error")
